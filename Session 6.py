@@ -11,7 +11,7 @@ from mediapipe.tasks.python.vision  import (
 )
 
 
-# ─── Hand skeleton connections (21-landmark topology) ─────────────────────────
+# Hand skeleton connections (21-landmark topology)
 HAND_CONNECTIONS = [
     (0,1),(1,2),(2,3),(3,4),        # thumb
     (0,5),(5,6),(6,7),(7,8),        # index
@@ -21,7 +21,7 @@ HAND_CONNECTIONS = [
     (5,9),(9,13),(13,17),           # palm knuckle arch
 ]
 
-# ─── Landmark indices ─────────────────────────────────────────────────────────
+# Landmark indices
 FINGER_TIPS  = [4, 8, 12, 16, 20]
 FINGER_NAMES = ["Thumb", "Index", "Middle", "Ring", "Pinky"]
 
@@ -36,7 +36,7 @@ FINGER_COLOURS = [
 WRIST_COLOUR = (255, 255, 255)
 
 
-# ─── Landmark helpers ─────────────────────────────────────────────────────────
+# Landmark helpers
 
 def lm_to_px(landmark, w, h):
     """Convert a NormalizedLandmark to (x_px, y_px, z)."""
@@ -50,7 +50,7 @@ def classify_side(handedness_list):
     return "unknown"
 
 
-# ─── Drawing helpers ──────────────────────────────────────────────────────────
+# Drawing helpers
 
 def lerp_colour(c1, c2, t):
     return tuple(int(c1[i] + (c2[i] - c1[i]) * t) for i in range(3))
@@ -87,7 +87,7 @@ def draw_glowing_circle(img, center, radius, colour, thickness=2):
     cv2.circle(img, center, radius,     colour, thickness,  cv2.LINE_AA)
 
 
-# ─── Per-hand skeleton ────────────────────────────────────────────────────────
+# Per-hand skeleton
 
 def draw_hand_skeleton(img, landmarks, w, h, hand_colour=(80, 200, 255)):
     for (a, b) in HAND_CONNECTIONS:
@@ -102,7 +102,7 @@ def draw_hand_skeleton(img, landmarks, w, h, hand_colour=(80, 200, 255)):
         draw_glowing_circle(img, (x, y), r, hand_colour, thickness=2)
 
 
-# ─── Cross-hand 3D connections ────────────────────────────────────────────────
+# Cross-hand 3D connections
 
 def draw_finger_connections(img, lm_left, lm_right, w, h):
     tip_left  = [lm_to_px(lm_left[i],  w, h) for i in FINGER_TIPS]
@@ -148,7 +148,7 @@ def draw_finger_connections(img, lm_left, lm_right, w, h):
                     cv2.FONT_HERSHEY_SIMPLEX, 0.45, col, 1, cv2.LINE_AA)
 
 
-# ─── HUD ──────────────────────────────────────────────────────────────────────
+# HUD
 
 def draw_hud(img, hands_detected, w, h):
     overlay = img.copy()
@@ -161,7 +161,7 @@ def draw_hud(img, hands_detected, w, h):
                 cv2.FONT_HERSHEY_SIMPLEX, 0.45, (160, 160, 160), 1, cv2.LINE_AA)
 
 
-# ─── Main ─────────────────────────────────────────────────────────────────────
+# Main
 
 def main():
     cap = cv2.VideoCapture(0)
